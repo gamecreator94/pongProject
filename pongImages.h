@@ -87,7 +87,7 @@ ScreenBuild::ScreenBuild()
 
     EnemySliderRectangle.x = 568;
 
-    EnemySliderRectangle.y = enemySliderY;
+    EnemySliderRectangle.y = enemySliderY - 25;
 
     ballRectangle.x = ballX;
 
@@ -251,14 +251,14 @@ void ScreenBuild::followSlider()
              if( sliderMove.key.keysym.sym == SDLK_UP )
                  {
 
-                 sliderRectangle.y = sliderRectangle.y - 10;
+                 sliderRectangle.y = sliderRectangle.y - 20;
 
                  }// if(sliderMove.key.keysym.sym == SDLK_UP)
 
               if( sliderMove.key.keysym.sym == SDLK_DOWN )
                   {
 
-                  sliderRectangle.y = sliderRectangle.y + 10;
+                  sliderRectangle.y = sliderRectangle.y + 20;
 
                   }// if( sliderMove.key.keysym.sym == SDLK_DOWN )
 
@@ -286,21 +286,47 @@ void ScreenBuild::followEnemySlider()
 
     EnemySliderRectangle.y = ballRectangle.y - 25;
 
-    if( ballRectangle.x + 47 == 567 )
+    if( ballCanMoveVertically )
         {
 
-        enemyMissBall = rand() % 10;
-
-        if( enemyMissBall == 5 )
+        if( ballRectangle.x + 47 == 567 )
             {
 
-            EnemySliderRectangle.y = EnemySliderRectangle.y;
+            enemyMissBall = rand() % 10;
 
-            }// if( enemyMissBall == 5 )
+            if( enemyMissBall == 5 || enemyMissBall == 6 || enemyMissBall == 7 )
+                {
 
-        }// if( ballRectangle.x + 47 == 567 )
+                if( ballVertical = false )
+                    {
 
-    EnemySliderRectangle.y = ballRectangle.y - 25;
+                    ballRectangle.y = ballRectangle.y + 100;
+
+                    ballRectangle.x = 640;
+
+                    }// if( ballVertical = false )
+
+                else
+                    {
+
+                    ballRectangle.y = ballRectangle.y - 100;
+
+                    ballRectangle.x = 640;
+
+                    }// else of if( ballVertical = false )
+
+                }// if( enemyMissBall == 5 )
+
+            else
+                {
+
+                EnemySliderRectangle.y = ballRectangle.y - 75;
+
+                }// else of if( enemyMissBall == 5 )
+
+            }// if( ballRectangle.x + 47 == 567 )
+
+        }// if( ballCanMoveVertically )
 
     }// void ScreenBuild::followEnemySlider()
 
@@ -317,6 +343,8 @@ void ScreenBuild::followBall()
         ballRectangle.x = ballX;
 
         sliderRectangle.y = sliderY;
+
+        EnemySliderRectangle.y = ballRectangle.y - 25;
 
         ballCanMoveVertically = false;
 
@@ -349,36 +377,36 @@ void ScreenBuild::followBall()
         if( ballVertical && ballHorizontal )
             {
 
-            ballRectangle.y = ballRectangle.y++;
+            ballRectangle.y = ballRectangle.y + 5;
 
-            ballRectangle.x = ballRectangle.x++;
+            ballRectangle.x = ballRectangle.x + 5;
 
             }// if( ballVertical && ballHorizontal )
 
         else if( ballVertical && !ballHorizontal )
             {
 
-            ballRectangle.y = ballRectangle.y++;
+            ballRectangle.y = ballRectangle.y + 5;
 
-            ballRectangle.x = ballRectangle.x--;
+            ballRectangle.x = ballRectangle.x - 5;
 
             }// else if( ballVertical && !ballHorizontal )
 
         else if( !ballVertical && ballHorizontal )
             {
 
-            ballRectangle.y = ballRectangle.y--;
+            ballRectangle.y = ballRectangle.y - 5;
 
-            ballRectangle.x = ballRectangle.x++;
+            ballRectangle.x = ballRectangle.x + 5;
 
             }// else if( !ballVertical && ballHorizontal )
 
         else
             {
 
-            ballRectangle.y = ballRectangle.y--;
+            ballRectangle.y = ballRectangle.y - 5;
 
-            ballRectangle.x = ballRectangle.x--;
+            ballRectangle.x = ballRectangle.x - 5;
 
             }// else of if( ballVertical && ballHorizontal )
 
@@ -390,18 +418,20 @@ void ScreenBuild::followBall()
             if( ballHorizontal )
                 {
 
-                ballRectangle.x = ballRectangle.x++;
+                ballRectangle.x = ballRectangle.x + 5;
 
                 }// if( ballHorizontal )
 
             else
                 {
 
-                ballRectangle.x = ballRectangle.x--;
+                ballRectangle.x = ballRectangle.x - 5;
 
                 }// else of if( ballHorizontal )
 
             }// else of if( ballCanMoveVertically )
+
+        // This checks if the ball comes into contact with your slider.
 
         if( ballRectangle.x <= sliderRectangle.x + 50 )
             {
@@ -413,23 +443,57 @@ void ScreenBuild::followBall()
 
                 verticalAllowed = rand() % 10;
 
-                if( verticalAllowed == 1 || verticalAllowed == 5 )
+                if( verticalAllowed == 1 || verticalAllowed == 5 || verticalAllowed == 8 || verticalAllowed == 9 )
                     {
 
                     ballCanMoveVertically = true;
 
-                    }// if( verticalAllowed == 1 )
+                    verticalAllowed = verticalAllowed % 2;
 
-                if( verticalAllowed == 3)
+                    if( verticalAllowed == 1 )
+                        {
+
+                        ballVertical = true;
+
+                        }// if( verticalAllowed == 1 )
+
+                    else
+                        {
+
+                        ballVertical = false;
+
+                        }// else of if( verticalAllowed == 1 )
+
+                    }// if( verticalAllowed == 1 || verticalAllowed == 5 || verticalAllowed == 8 || verticalAllowed == 9 )
+
+                if( verticalAllowed == 3 || verticalAllowed == 7 )
                     {
 
                     ballCanMoveVertically = false;
 
-                    }// if( verticalAllowed == 3 )
+                    verticalAllowed = verticalAllowed % 2;
+
+                    if( verticalAllowed == 1 )
+                        {
+
+                        ballVertical = true;
+
+                        }// if( verticalAllowed == 1 )
+
+                    else
+                        {
+
+                        ballVertical = false;
+
+                        }// else of if( verticalAllowed == 1 )
+
+                    }// if( verticalAllowed == 3 || verticalAllowed == 7 )
 
                 }// if( ballRectangle.x >= sliderRectangle.x && ballRectangle.x <= sliderRectangle.x + 122 )
 
             }// if( ballRectangle.x == sliderRectangle.x + 50 )
+
+        // this checks if the ball came into contact with the enemy slider.
 
         if( ballRectangle.x >= EnemySliderRectangle.x - 50 )
             {
@@ -441,14 +505,14 @@ void ScreenBuild::followBall()
 
                 verticalAllowed = rand() % 10;
 
-                if( verticalAllowed == 1 || verticalAllowed == 5 )
+                if( verticalAllowed == 1 || verticalAllowed == 5 || verticalAllowed == 8 || verticalAllowed == 9 )
                     {
 
                     ballCanMoveVertically = true;
 
-                    }// if( verticalAllowed == 1 )
+                    }// if( verticalAllowed == 1 || verticalAllowed == 5 || verticalAllowed == 8 || verticalAllowed == 9 )
 
-                if( verticalAllowed == 3)
+                if( verticalAllowed == 3 || verticalAllowed == 7 )
                     {
 
                     ballCanMoveVertically = false;

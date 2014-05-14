@@ -67,7 +67,7 @@ int main( int argc, char* args[] )
 
             SDL_UpdateWindowSurface( screen );
 
-            SDL_Delay(4);
+            SDL_Delay(1);
 
             if( gameOver.type == SDL_QUIT )
                 {
