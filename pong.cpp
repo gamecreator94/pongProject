@@ -53,6 +53,10 @@ int main( int argc, char* args[] )
 
             game.followSlider();
 
+            game.followBall();
+
+            game.followEnemySlider();
+
             SDL_FillRect(screenPrint, NULL, SDL_MapRGB(screenPrint -> format, 0x00, 0x00, 0x00));
 
             SDL_BlitSurface( screenOutput, NULL, screenPrint, &game.sliderRectangle );
@@ -62,6 +66,8 @@ int main( int argc, char* args[] )
             SDL_BlitSurface( screenOutput3, NULL, screenPrint, &game.EnemySliderRectangle );
 
             SDL_UpdateWindowSurface( screen );
+
+            SDL_Delay(4);
 
             if( gameOver.type == SDL_QUIT )
                 {
